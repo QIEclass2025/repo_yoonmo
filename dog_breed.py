@@ -100,10 +100,10 @@ class DogBreedGame(tk.Tk):
         main_frame.configure(padx=20, pady=20)
 
         self.question_label = tk.Label(main_frame, text="", font=self.subtitle_font, bg="#f0f2f5", fg="#1c1e21")
-        self.question_label.pack(pady=(0, 10))
+        self.question_label.pack(pady=(0, 5))
 
         self.score_label = tk.Label(main_frame, text="점수: 0", font=self.score_font, bg="#f0f2f5", fg="#606770")
-        self.score_label.pack(pady=(0, 10))
+        self.score_label.pack(pady=(0, 5))
 
         tk.Label(main_frame, text="🔍 사진을 누르면 크게 보입니다", font=("Helvetica", 10), bg="#f0f2f5", fg="#888").pack()
 
@@ -114,13 +114,12 @@ class DogBreedGame(tk.Tk):
         self.image_label.pack()
         self.image_label.bind("<Button-1>", self.enlarge_image)
 
-        # expand=True를 제거하거나 유지하되, 아래 버튼 배치를 수정함으로 해결
         self.options_frame = tk.Frame(main_frame, bg="#f0f2f5")
-        self.options_frame.pack(pady=20, fill=tk.X) 
+        self.options_frame.pack(pady=10, fill=tk.X)
         
         self.option_buttons = []
         for i in range(4):
-            button = tk.Button(self.options_frame, text="", font=self.button_font, width=20, pady=10, bg="#e7f3ff", fg="#1877f2", relief=tk.FLAT, borderwidth=0)
+            button = tk.Button(self.options_frame, text="", font=self.button_font, width=20, pady=8, bg="#e7f3ff", fg="#1877f2", relief=tk.FLAT, borderwidth=0)
             self.option_buttons.append(button)
         
         self.options_frame.grid_columnconfigure(0, weight=1)
@@ -130,12 +129,13 @@ class DogBreedGame(tk.Tk):
         self.option_buttons[2].grid(row=1, column=0, padx=5, pady=5, sticky="ew")
         self.option_buttons[3].grid(row=1, column=1, padx=5, pady=5, sticky="ew")
 
-        self.result_label = tk.Label(main_frame, text="", font=self.result_font, bg="#f0f2f5")
-        self.result_label.pack(pady=10)
-
-        # [수정됨] side=tk.BOTTOM 제거 -> 버튼이 result_label 바로 밑에 옴
+        # [수정됨] 1. 다음 문제 버튼을 먼저 생성 및 배치 (정답 문구보다 위로)
         self.next_button = tk.Button(main_frame, text="다음 문제", font=self.button_font, bg="white", fg="red", relief=tk.FLAT, command=self.new_round, state=tk.DISABLED, disabledforeground="green")
-        self.next_button.pack(pady=20) 
+        self.next_button.pack(pady=(10, 0)) 
+
+        # [수정됨] 2. 정답/오답 표시 라벨을 버튼 아래에 배치
+        self.result_label = tk.Label(main_frame, text="", font=self.result_font, bg="#f0f2f5")
+        self.result_label.pack(pady=(5, 10))
 
     def enlarge_image(self, event):
         if self.current_pil_image:
@@ -210,7 +210,8 @@ class DogBreedGame(tk.Tk):
             self.current_pil_image = Image.open(io.BytesIO(image_data))
             
             display_img = self.current_pil_image.copy()
-            display_img.thumbnail((400, 400))
+            # [수정됨] 화면 짤림 방지를 위해 이미지 표시 크기를 줄임 (340x340)
+            display_img.thumbnail((340, 340))
             self.tk_image = ImageTk.PhotoImage(display_img)
             self.image_label.config(image=self.tk_image)
             self.result_label.config(text="") 
