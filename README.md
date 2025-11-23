@@ -34,10 +34,10 @@ Dog CEO API를 활용한 Python Tkinter 기반의 강아지 품종 맞추기 게
 
 ## 프로젝트 구조
 
-├── dog_breed.py         # 게임 메인 실행 파일
-├── pyproject.toml       # 프로젝트 의존성 및 메타데이터 설정
-├── uv.lock              # 의존성 버전 잠금 파일 (재현성 보장)
-├── README.md            # 프로젝트 설명서
+dog_breed.py         # 게임 메인 실행 파일
+pyproject.toml       # 프로젝트 의존성 및 메타데이터 설정
+uv.lock              # 의존성 버전 잠금 파일 (재현성 보장)
+README.md            # 프로젝트 설명서
 
 ## 실행 방법
 
