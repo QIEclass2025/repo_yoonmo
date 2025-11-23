@@ -44,7 +44,7 @@ class DogBreedGame(tk.Tk):
 
         self.create_start_screen()
         self.create_game_widgets()
-        self.create_results_widgets() # 이제 이 함수가 아래에 있어서 에러 안 남!
+        self.create_results_widgets()
 
         # --- 앱 시작 ---
         self.show_frame(self.start_frame)
@@ -114,8 +114,10 @@ class DogBreedGame(tk.Tk):
         self.image_label.pack()
         self.image_label.bind("<Button-1>", self.enlarge_image)
 
+        # expand=True를 제거하거나 유지하되, 아래 버튼 배치를 수정함으로 해결
         self.options_frame = tk.Frame(main_frame, bg="#f0f2f5")
-        self.options_frame.pack(pady=20, expand=True, fill=tk.X)
+        self.options_frame.pack(pady=20, fill=tk.X) 
+        
         self.option_buttons = []
         for i in range(4):
             button = tk.Button(self.options_frame, text="", font=self.button_font, width=20, pady=10, bg="#e7f3ff", fg="#1877f2", relief=tk.FLAT, borderwidth=0)
@@ -131,8 +133,9 @@ class DogBreedGame(tk.Tk):
         self.result_label = tk.Label(main_frame, text="", font=self.result_font, bg="#f0f2f5")
         self.result_label.pack(pady=10)
 
+        # [수정됨] side=tk.BOTTOM 제거 -> 버튼이 result_label 바로 밑에 옴
         self.next_button = tk.Button(main_frame, text="다음 문제", font=self.button_font, bg="white", fg="red", relief=tk.FLAT, command=self.new_round, state=tk.DISABLED, disabledforeground="green")
-        self.next_button.pack(pady=20, side=tk.BOTTOM) 
+        self.next_button.pack(pady=20) 
 
     def enlarge_image(self, event):
         if self.current_pil_image:
@@ -146,7 +149,6 @@ class DogBreedGame(tk.Tk):
             lbl.image = tk_img
             lbl.pack(expand=True, fill=tk.BOTH)
 
-    # --- [복구됨] 아까 빠졌던 함수 ---
     def create_results_widgets(self):
         results_frame = self.results_frame
         results_frame.configure(padx=20, pady=20)
